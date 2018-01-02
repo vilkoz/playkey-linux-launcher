@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+
+PLAYKEY_DIR = "/.wine/drive_c/Program Files (x86)/Playkey/"
+WINE = "wine64"
+
+"""
+Playkey.exe - Playkey cloud game service client
+    --help                    view this message
+    -h, --host=<hostname>     Host name or ip address of remote server
+    -p, --port=<port>         Manager port for client connections
+    -g, --game=<id>           Game id to playing
+    -u, --username=<username> User login for authorization in Manager
+    -c, --password=<password> User password for authorization in Manager
+    -t, --token=<str>         Authentication token
+    -a, --port-audio=<n>      Audio port on server
+    -v, --port-video=<n>      Video port on server
+    -i, --port-input=<n>      Input port on server
+    -A, --token-audio=<n>     Audio token on server
+    -V, --token-video=<n>     Video token on server
+    -I, --token-input=<n>     Input token on server
+    -m, --multi-instance      Multi-instance client mode
+    -l, --language=<str>      Language
+    -s, --session-id=<str>    Connection session ID
+    -d, --uid=<str>           User identifier device 
+    -w, --ga-tid=<str>        Google Analytics tid
+    -q, --ga-cid=<str>        Google Analytics cid
+    -r, --api-type=<str>      Api type
+    -X <str>                  Mailru user id
+    -Y <str>                  Union Pers Id
+    -Z <str>                  Playkey union auth token
+    -P <str>                  Remote params GC
+    -G <str>                  Game center game id
+    -C <str>                  Play config
+    --run-demo                Run demo game
+    -b, --restart-flag=<n>    Restart flag
+"""
+
+from sys import argv
+line = argv[1]
+line = line.replace("playkey:///?", "")
+line = line.split("&")
+print(line)
+arr = [x.split("=") for x in line]
+print (arr)
+query = {}
+for pair in arr:
+    query[pair[0]] = pair[1]
+
+print (query)
+
+from subprocess import check_output as run
+from os import environ as env
+
+print("running playkey")
+try:
+    run(WINE + " \"" + env["HOME"] + PLAYKEY_DIR + "Playkey.exe\" "+\
+        " --host=" + query["host"] + \
+        " --port=" + query["port"] + \
+        " --token=" + query["token"] + \
+        " --language=" + query["language"] + \
+        " --session-id=" + query["session-id"], shell=True)
+except subprocess.CalledProcessError:
+    print("An error occured, try to change config variables in script \"xdg-open\"")
