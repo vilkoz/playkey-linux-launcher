@@ -49,6 +49,7 @@ for pair in arr:
 print (query)
 
 from subprocess import check_output as run
+from subprocess import CalledProcessError:
 from os import environ as env
 
 print("running playkey")
@@ -59,5 +60,5 @@ try:
         " --token=" + query["token"] + \
         " --language=" + query["language"] + \
         " --session-id=" + query["session-id"], shell=True)
-except subprocess.CalledProcessError:
+except CalledProcessError:
     print("An error occured, try to change config variables in script \"xdg-open\"")
