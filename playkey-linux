@@ -41,9 +41,9 @@ if [ ! -d "$HOME"/.playkey-linux ] ; then
 	echo "Creating playkey-linux folder "$HOME"/.playkey-linux"
 	mkdir -p "$HOME"/.playkey-linux || exit 1
 	mkdir -p "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/" || exit 1
-	cp /usr/share/playkey-linux/xdg-open "$HOME"/.playkey-linux || exit 1
-	chmod +x "$HOME"/.playkey-linux/xdg-open || exit 1
-	ln -s /usr/shar/playkey-linux/ "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/" || exit 1
+	# cp /usr/share/playkey-linux/xdg-open "$HOME"/.playkey-linux || exit 1
+	# chmod +x "$HOME"/.playkey-linux/xdg-open || exit 1
+	ln -s /usr/share/playkey-linux/ "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/Playkey" || exit 1
 	install_mime_type
 fi
 
