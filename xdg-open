@@ -1,6 +1,7 @@
 #!/usr/bin/env python
+from os import environ as env
 
-PLAYKEY_DIR = "/.wine/drive_c/Program Files (x86)/Playkey/"
+PLAYKEY_DIR = "{}/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/Playkey/".format(env['HOME'])
 WINE = "wine64"
 
 """
@@ -50,11 +51,10 @@ print (query)
 
 from subprocess import check_output as run
 from subprocess import CalledProcessError
-from os import environ as env
 
 print("running playkey")
 try:
-    run(WINE + " \"" + env["HOME"] + PLAYKEY_DIR + "Playkey.exe\" "+\
+    run(WINE + " \"" + PLAYKEY_DIR + "Playkey.exe\" "+\
         " --host=" + query["host"] + \
         " --port=" + query["port"] + \
         " --token=" + query["token"] + \
