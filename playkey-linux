@@ -21,10 +21,12 @@ Comment[en_US.utf8]=Playkey cloud gaming service
 StartupNotify=true
 EOF
  
+# If you can fix this command - it would be better to use native way instead of
+# hacky script for parsing url
+
 # Then add command line to run playkey client:
 echo "Exec=\"${HOME}/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/Playkey/Playkey.exe\" %u" >> "$HOME"/.playkey-linux/playkey.desktop
 chmod +x "$HOME"/.playkey-linux/playkey.desktop
- 
  
 # Now install it to user's home directory so xdg-mime and xdg-open can find it:
 xdg-desktop-menu install --novendor --mode user "$HOME"/.playkey-linux/playkey.desktop
@@ -41,10 +43,10 @@ if [ ! -d "$HOME"/.playkey-linux ] ; then
 	echo "Creating playkey-linux folder "$HOME"/.playkey-linux"
 	mkdir -p "$HOME"/.playkey-linux || exit 1
 	mkdir -p "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/" || exit 1
-	# cp /usr/share/playkey-linux/xdg-open "$HOME"/.playkey-linux || exit 1
-	# chmod +x "$HOME"/.playkey-linux/xdg-open || exit 1
+	cp /usr/share/playkey-linux/xdg-open "$HOME"/.playkey-linux || exit 1
+	chmod +x "$HOME"/.playkey-linux/xdg-open || exit 1
 	ln -s /usr/share/playkey-linux/ "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/Playkey" || exit 1
-	install_mime_type
+	# install_mime_type
 fi
 
 PATH="$HOME/.playkey-linux":$PATH
