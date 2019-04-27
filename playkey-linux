@@ -2,57 +2,27 @@
 
 export WINEPREFIX="$HOME"/.playkey-linux/wine_prefix
 
-function install_mime_type() {
-cat << EOF > "$HOME"/.playkey-linux/playkey.desktop
-[Desktop Entry]
-Encoding=UTF-8
-Version=1.0
-Type=Application
-Terminal=false
-Icon=Playkey.svg
-Categories=Application;Games;
-MimeType=x-scheme-handler/playkey;
-Name=Playkey
-Comment=Playkey cloud gaming service
-Name[en_US]=Playkey
-Comment[en_US]=Playkey cloud gaming service
-Name[en_US.utf8]=Playkey
-Comment[en_US.utf8]=Playkey cloud gaming service
-StartupNotify=true
-EOF
- 
-# If you can fix this command - it would be better to use native way instead of
-# hacky script for parsing url
+LAUNCHER_FOLDER="$HOME"/.playkey-linux
+if [[ ! -d "$LAUNCHER_FOLDER" || ! -f "$LAUNCHER_FOLDER/.user_installed" ]] ; then
+	echo "Starting the first launch installation"
+	echo "Creating playkey-linux folder: $LAUNCHER_FOLDER"
+	mkdir -p $LAUNCHER_FOLDER || exit 1
+	PROGRAM_FILES_FOLDER="$LAUNCHER_FOLDER/wine_prefix/drive_c/Program Files (x86)"
+	mkdir -p "$PROGRAM_FILES_FOLDER" || exit 1
 
-# Then add command line to run playkey client:
-echo "Exec=\"${HOME}/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/Playkey/Playkey.exe\" %u" >> "$HOME"/.playkey-linux/playkey.desktop
-chmod +x "$HOME"/.playkey-linux/playkey.desktop
- 
-# Now install it to user's home directory so xdg-mime and xdg-open can find it:
-xdg-desktop-menu install --novendor --mode user "$HOME"/.playkey-linux/playkey.desktop
- 
-# Now set url scheme handler:
-xdg-mime default "$HOME"/.playkey-linux/playkey.desktop x-scheme-handler/playkey
-xdg-settings set default-url-scheme-handler playkey playkey.desktop
- 
-# Update desktop menu cache
-update-desktop-database
-}
-
-if [[ ! -d "$HOME"/.playkey-linux || ! -f "$HOME/.playkey-linux/.user_installed" ]] ; then
-	echo "Creating playkey-linux folder "$HOME"/.playkey-linux"
-	mkdir -p "$HOME"/.playkey-linux || exit 1
-	mkdir -p "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/" || exit 1
-	ln -s /usr/share/playkey-linux "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/Playkey" || exit 1
-	cp -v /usr/share/playkey-linux/xdg-open "$HOME"/.playkey-linux || exit 1
-	chmod +x "$HOME"/.playkey-linux/xdg-open || exit 1
-	# install_mime_type
+	echo "Creating symlink for Playkey.exe folder: $PROGRAM_FILES_FOLDER/Playkey"
+	ln -s /usr/share/playkey-linux "$PROGRAM_FILES_FOLDER/Playkey" || exit 1
+	echo "Copying custom xdg-open into $LAUNCHER_FOLDER"
+	cp -v /usr/share/playkey-linux/xdg-open $LAUNCHER_FOLDER || exit 1
+	chmod +x "$LAUNCHER_FOLDER/xdg-open" || exit 1
 	# winetricks -q d3drm d3dx10 dxvk d3dx9 d3dxof devenum dinput8 vcrun2008 vcrun2010 xact xinput || exit 1
-	touch "$HOME/.playkey-linux/.user_installed"
+	touch "$LAUNCHER_FOLDER/.user_installed"
+	echo "Install finished"
 fi
 
 PATH="$HOME/.playkey-linux":$PATH
-echo $PATH
+echo "Modified path: " $PATH
+
 zenity --info --text='Please change user agent to "Chrome Windows" for chromium in Developer setings > Network Conditions'
+
 chromium "https://playkey.net"
-# wine "$HOME"/.playkey-linux/playkey.exe

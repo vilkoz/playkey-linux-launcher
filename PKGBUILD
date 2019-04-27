@@ -28,33 +28,27 @@ source_x86_64=(
 	'https://static.playkey.net/clientdownload.aspx?file=windows-desktop/Release/PlaykeySetup.exe&name=PlaykeySetup.exe'
 	'git+https://github.com/vilkoz/playkey-linux-launcher.git'
 )
-# source_i686
-# source_armv7h
 sha256sums_x86_64=(
 	'65588718d0d90632414e6b36a3a9f55bf66bc82fd38bc6841b68b499d67f6ba1'
 	'SKIP'
 )
-# sha256sums_x86_64
-# sha256sums_armv7h
 
 prepare() {
-	msg2 "prepare"
+	msg2 'Extracting PlaykeySetup.exe'
 	innoextract 'PlaykeySetup.exe&name=PlaykeySetup.exe'
 }
 
-# build() {
-# 	msg2 "build"
-# }
-
 package() {
-	msg2 "package"
-	echo $(pwd)
+	msg2 'Creating installation folder'
 	install -d -m755 $pkgdir/usr/share/playkey-linux
+
+	msg2 'Copying windows binaries'
 	cp -ra app/* $pkgdir/usr/share/playkey-linux
 	find $pkgdir/usr/share/playkey-linux -type d -exec chmod 755 "{}" \;
 	find $pkgdir/usr/share/playkey-linux -type f -exec chmod 644 "{}" \;
-	cp playkey-linux-launcher/xdg-open $pkgdir/usr/share/playkey-linux
-	chmod a+x $pkgdir/usr/share/playkey-linux/xdg-open
+
+	msg2 'Copying playkey-linux-launcher scripts'
+	install playkey-linux-launcher/xdg-open $pkgdir/usr/share/playkey-linux
 	install -d -m755 $pkgdir/usr/bin
 	install -m755 playkey-linux-launcher/playkey-linux $pkgdir/usr/bin
 }
