@@ -1,0 +1,34 @@
+{
+  "name": "Windows user-agent",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Change user-agent to Windows one",
+  "homepage_url": "https://vilkoz.site",
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "js": ["contentscript.js"],
+      "matches": [
+          "https://*.playkey.net/*",
+          "http://*.playkey.net/*"
+      ]
+    }
+  ],
+  "browser_action": {
+    "default_title": "Windows user-agent"
+  },
+  "permissions": [
+    "https://*/*",
+    "http://*/*",
+    "tabs",
+    "webNavigation",
+    "webRequest",
+    "webRequestBlocking"
+  ]
+}

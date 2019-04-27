@@ -6,15 +6,16 @@ LAUNCHER_FOLDER="$HOME"/.playkey-linux
 if [[ ! -d "$LAUNCHER_FOLDER" || ! -f "$LAUNCHER_FOLDER/.user_installed" ]] ; then
 	echo "Starting the first launch installation"
 	echo "Creating playkey-linux folder: $LAUNCHER_FOLDER"
-	mkdir -p $LAUNCHER_FOLDER || exit 1
+	mkdir -p "$LAUNCHER_FOLDER" || exit 1
 	PROGRAM_FILES_FOLDER="$LAUNCHER_FOLDER/wine_prefix/drive_c/Program Files (x86)"
 	mkdir -p "$PROGRAM_FILES_FOLDER" || exit 1
 
 	echo "Creating symlink for Playkey.exe folder: $PROGRAM_FILES_FOLDER/Playkey"
 	ln -s /usr/share/playkey-linux "$PROGRAM_FILES_FOLDER/Playkey" || exit 1
 	echo "Copying custom xdg-open into $LAUNCHER_FOLDER"
-	cp -v /usr/share/playkey-linux/xdg-open $LAUNCHER_FOLDER || exit 1
+	cp -v /usr/share/playkey-linux/xdg-open "$LAUNCHER_FOLDER" || exit 1
 	chmod +x "$LAUNCHER_FOLDER/xdg-open" || exit 1
+	ln -s /usr/share/playkey-linux/extension "$LAUNCHER_FOLDER/extension" || exit 1
 	# winetricks -q d3drm d3dx10 dxvk d3dx9 d3dxof devenum dinput8 vcrun2008 vcrun2010 xact xinput || exit 1
 	touch "$LAUNCHER_FOLDER/.user_installed"
 	echo "Install finished"
@@ -23,6 +24,6 @@ fi
 PATH="$HOME/.playkey-linux":$PATH
 echo "Modified path: " $PATH
 
-zenity --info --text='Please change user agent to "Chrome Windows" for chromium in Developer setings > Network Conditions'
+# zenity --info --text='Please change user agent to "Chrome Windows" for chromium in Developer setings > Network Conditions'
 
-chromium "https://playkey.net"
+chromium "https://playkey.net" --load-extension=$LAUNCHER_FOLDER/extension

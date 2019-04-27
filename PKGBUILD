@@ -51,5 +51,10 @@ package() {
 	install playkey-linux-launcher/xdg-open $pkgdir/usr/share/playkey-linux
 	install -d -m755 $pkgdir/usr/bin
 	install -m755 playkey-linux-launcher/playkey-linux $pkgdir/usr/bin
+
+	msg2 'Copying playkey-linux-launcher chrome user-agent extension'
+	install -d -m755 $pkgdir/usr/share/playkey-linux/extension
+	cp -ra playkey-linux-launcher/extension/* $pkgdir/usr/share/playkey-linux/extension/
+	find $pkgdir/usr/share/playkey-linux/extension/ -type f -exec chmod 644 "{}" \;
 }
 
