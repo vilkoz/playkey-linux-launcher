@@ -1,7 +1,7 @@
 # Maintainer: Vitalii Rybalko <vilko dot a at gmail dot com>
 
 pkgname=playkey-linux
-pkgver=14.2.8352
+pkgver=1.0
 pkgrel=1
 pkgdesc='Client for game streaming service playkey.net'
 arch=('x86_64')
@@ -14,6 +14,10 @@ depends=(
 	'chromium'
 	'wine'
 	'python3'
+	'winetricks'
+	'zenity'
+	'openal'
+	'lib32-openal'
 )
 makedepends=(
 	'git'

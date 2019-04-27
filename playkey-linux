@@ -39,14 +39,16 @@ xdg-settings set default-url-scheme-handler playkey playkey.desktop
 update-desktop-database
 }
 
-if [ ! -d "$HOME"/.playkey-linux ] ; then
+if [[ ! -d "$HOME"/.playkey-linux || ! -f "$HOME/.playkey-linux/.user_installed" ]] ; then
 	echo "Creating playkey-linux folder "$HOME"/.playkey-linux"
 	mkdir -p "$HOME"/.playkey-linux || exit 1
 	mkdir -p "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/" || exit 1
-	cp /usr/share/playkey-linux/xdg-open "$HOME"/.playkey-linux || exit 1
+	ln -s /usr/share/playkey-linux "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/Playkey" || exit 1
+	cp -v /usr/share/playkey-linux/xdg-open "$HOME"/.playkey-linux || exit 1
 	chmod +x "$HOME"/.playkey-linux/xdg-open || exit 1
-	ln -s /usr/share/playkey-linux/ "$HOME/.playkey-linux/wine_prefix/drive_c/Program Files (x86)/Playkey" || exit 1
 	# install_mime_type
+	# winetricks -q d3drm d3dx10 dxvk d3dx9 d3dxof devenum dinput8 vcrun2008 vcrun2010 xact xinput || exit 1
+	touch "$HOME/.playkey-linux/.user_installed"
 fi
 
 PATH="$HOME/.playkey-linux":$PATH
