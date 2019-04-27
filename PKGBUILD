@@ -15,7 +15,6 @@ depends=(
 	'wine'
 	'python3'
 	'winetricks'
-	'zenity'
 	'openal'
 	'lib32-openal'
 )
