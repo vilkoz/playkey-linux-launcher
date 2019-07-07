@@ -10,3 +10,5 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function (details) {
 { urls: ["<all_urls>"] },
 ["blocking", "requestHeaders"],
 );
+
+chrome.cookies.set({ url: "https://playkey.net", name: "isHasClient", value: "true", expirationDate: ((new Date().getTime()) / 1000 + 3600) })
