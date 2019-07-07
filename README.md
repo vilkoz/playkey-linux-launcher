@@ -23,7 +23,12 @@ Run:
 # Installation
 
 ## Arch Linux
+From aur:
+```
+yay -S playkey-linux
+```
 
+Or from github:
 ```
 git clone https://github.com/vilkoz/playkey-linux-launcher.git
 cd playkey-linux-launcher
@@ -38,4 +43,3 @@ sudo make install
 ```
 
 To uninstall use `sudo make uninstall`
-
