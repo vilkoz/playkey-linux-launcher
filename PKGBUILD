@@ -55,5 +55,11 @@ package() {
 	install -d -m755 $pkgdir/usr/share/playkey-linux/extension
 	cp -ra playkey-linux-launcher/extension/* $pkgdir/usr/share/playkey-linux/extension/
 	find $pkgdir/usr/share/playkey-linux/extension/ -type f -exec chmod 644 "{}" \;
+
+	msg2 'Copying playkey-linux-launcher .desktop files'
+	install -d -m755 $pkgdir/usr/share/applications/
+	install -m755 playkey-linux-launcher/playkey-linux.desktop $pkgdir/usr/share/applications/
+	install -d -m755 $pkgdir/usr/share/pixmaps/
+	install -m755 playkey-linux-launcher/playkeyIO.svg $pkgdir/usr/share/pixmaps/
 }
 

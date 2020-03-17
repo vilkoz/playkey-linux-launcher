@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Playkey
+Exec=playkey-linux
+Icon=playkeyIO
+Type=Application
+Categories=Network;FileTransfer;Game;
